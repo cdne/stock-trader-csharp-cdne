@@ -41,6 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StockTrader\IApiService.cs" />
+    <Compile Include="StockTrader\ILogger.cs" />
+    <Compile Include="StockTrader\ITrader.cs" />
+    <Compile Include="StockTrader\IUrlReader.cs" />
     <Compile Include="StockTrader\Logger.cs" />
     <Compile Include="StockTrader\RemoteURLReader.cs" />
     <Compile Include="StockTrader\StockAPIService.cs" />

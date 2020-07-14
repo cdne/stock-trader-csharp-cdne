@@ -1,26 +1,16 @@
+using stock_trader_app_DI_csharp.StockTrader;
+
 namespace stockTrader
 {
-    public class Trader
+    public class Trader : ITrader
     {
-        private static Trader _instance;
+        private readonly IApiService apiService;
+        private readonly ILogger logger;
 
-        public static Trader Instance
+        public Trader(ILogger logger, IApiService apiService)
         {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new Trader();
-                }
-                return _instance;
-            }
-        }
-
-        private readonly StockAPIService _stockApiService;
-
-        public Trader()
-        {
-            _stockApiService = new StockAPIService();
+            this.apiService = apiService;
+            this.logger = logger;
         }
         
         /// <summary>
@@ -31,15 +21,15 @@ namespace stockTrader
         /// <returns>whether any stock was bought</returns>
         public bool Buy(string symbol, double bid) 
         {
-            double price = _stockApiService.GetPrice(symbol);
+            double price = apiService.GetPrice(symbol);
             bool result;
             if (price <= bid) {
                 result = true;
-                _stockApiService.Buy(symbol);
-                Logger.Instance.Log("Purchased " + symbol + " stock at $" + bid + ", since its higher that the current price ($" + price + ")");
+                apiService.Buy(symbol);
+                logger.Log("Purchased " + symbol + " stock at $" + bid + ", since its higher that the current price ($" + price + ")");
             }
             else {
-                Logger.Instance.Log("Bid for " + symbol + " was $" + bid + " but the stock price is $" + price + ", no purchase was made.");
+                logger.Log("Bid for " + symbol + " was $" + bid + " but the stock price is $" + price + ", no purchase was made.");
                 result = false;
             }
             return result;
